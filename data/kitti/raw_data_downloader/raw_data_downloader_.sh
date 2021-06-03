@@ -46,6 +46,7 @@ do
 done
 
 
+
 files=(2011_09_26_calib.zip
 2011_09_26_drive_0001
 2011_09_26_drive_0002
@@ -220,11 +221,10 @@ for i in "${files[@]}"; do
     fi
     if [ -z "${limit}" ];then break;fi
     limit="$((limit-1))"
-    echo "Downloading: $shortname and limit is $limit"
     if [ $limit -le 0 ]; then
         break
     fi
-    # wget 'https://s3.eu-central-1.amazonaws.com/avg-kitti/raw_data/'$fullname
-    # unzip -o $shortname
-    # rm $shortname
+     wget 'https://s3.eu-central-1.amazonaws.com/avg-kitti/raw_data/'$fullname
+     unzip -o $shortname
+     rm $shortname
 done

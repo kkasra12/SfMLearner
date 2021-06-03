@@ -42,6 +42,11 @@ class kitti_raw_loader(object):
     def collect_train_frames(self):
         all_frames = []
         for date in self.date_list:
+            ##############33
+            dir_path = os.path.join(self.dataset_dir,date)
+            if not os.path.exists(dir_path):
+                continue
+            ###########3
             drive_set = os.listdir(self.dataset_dir + date + '/')
             for dr in drive_set:
                 drive_dir = os.path.join(self.dataset_dir, date, dr)

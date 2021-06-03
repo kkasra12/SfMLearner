@@ -1,20 +1,24 @@
 from __future__ import division
+
 import argparse
-import scipy.misc
-import numpy as np
-from glob import glob
-from joblib import Parallel, delayed
 import os
+from glob import glob
+
+import numpy as np
+import scipy.misc
+from joblib import Parallel, delayed
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset_dir", type=str, required=True, help="where the dataset is stored")
-parser.add_argument("--dataset_name", type=str, required=True, choices=["kitti_raw_eigen", "kitti_raw_stereo", "kitti_odom", "cityscapes"])
+parser.add_argument("--dataset_name", type=str, required=True,
+                    choices=["kitti_raw_eigen", "kitti_raw_stereo", "kitti_odom", "cityscapes"])
 parser.add_argument("--dump_root", type=str, required=True, help="Where to dump the data")
 parser.add_argument("--seq_length", type=int, required=True, help="Length of each training sequence")
 parser.add_argument("--img_height", type=int, default=128, help="image height")
 parser.add_argument("--img_width", type=int, default=416, help="image width")
 parser.add_argument("--num_threads", type=int, default=4, help="number of threads to use")
 args = parser.parse_args()
+
 
 def concat_image_seq(seq):
     for i, im in enumerate(seq):
@@ -23,6 +27,7 @@ def concat_image_seq(seq):
         else:
             res = np.hstack((res, im))
     return res
+
 
 def dump_example(n, args):
     if n % 2000 == 0:
@@ -39,7 +44,7 @@ def dump_example(n, args):
     dump_dir = os.path.join(args.dump_root, example['folder_name'])
     # if not os.path.isdir(dump_dir):
     #     os.makedirs(dump_dir, exist_ok=True)
-    try: 
+    try:
         os.makedirs(dump_dir)
     except OSError:
         if not os.path.isdir(dump_dir):
@@ -49,6 +54,7 @@ def dump_example(n, args):
     dump_cam_file = dump_dir + '/%s_cam.txt' % example['file_name']
     with open(dump_cam_file, 'w') as f:
         f.write('%f,0.,%f,0.,%f,%f,0.,0.,1.' % (fx, cx, fy, cy))
+
 
 def main():
     if not os.path.exists(args.dump_root):
@@ -76,7 +82,7 @@ def main():
                                        split='stereo',
                                        img_height=args.img_height,
                                        img_width=args.img_width,
-                                       seq_length=args.seq_length)        
+                                       seq_length=args.seq_length)
 
     if args.dataset_name == 'cityscapes':
         from cityscapes.cityscapes_loader import cityscapes_loader
@@ -103,5 +109,5 @@ def main():
                     else:
                         tf.write('%s %s\n' % (s, frame))
 
-main()
 
+main()
