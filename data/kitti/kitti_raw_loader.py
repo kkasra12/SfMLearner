@@ -3,6 +3,8 @@ import numpy as np
 from glob import glob
 import os
 import scipy.misc
+from matplotlib import pyplot
+
 
 class kitti_raw_loader(object):
     def __init__(self, 
@@ -120,7 +122,8 @@ class kitti_raw_loader(object):
     def load_image_raw(self, drive, cid, frame_id):
         date = drive[:10]
         img_file = os.path.join(self.dataset_dir, date, drive, 'image_' + cid, 'data', frame_id + '.png')
-        img = scipy.misc.imread(img_file)
+        # img = scipy.misc.imread(img_file)
+        img = pyplot.imread(img_file)
         return img
 
     def load_intrinsics_raw(self, drive, cid, frame_id):
