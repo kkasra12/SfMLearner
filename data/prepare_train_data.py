@@ -16,7 +16,7 @@ parser.add_argument("--dump_root", type=str, required=True, help="Where to dump 
 parser.add_argument("--seq_length", type=int, required=True, help="Length of each training sequence")
 parser.add_argument("--img_height", type=int, default=128, help="image height")
 parser.add_argument("--img_width", type=int, default=416, help="image width")
-parser.add_argument("--num_threads", type=int, default=4, help="number of threads to use")
+parser.add_argument("--num_threads", type=int, default=-1, help="number of threads to use")
 args = parser.parse_args()
 
 
