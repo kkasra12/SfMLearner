@@ -49,8 +49,10 @@ class kitti_raw_loader(object):
             # kasra >>
             dir_path = os.path.join(self.dataset_dir, date)
             if not os.path.exists(dir_path):
+                print(f"WARNNING: data {date} passed")
                 continue
             # << kasra
+            print(f"INFO: data {date} is processing...")
             drive_set = os.listdir(self.dataset_dir + date + '/')
             for dr in drive_set:
                 drive_dir = os.path.join(self.dataset_dir, date, dr)
